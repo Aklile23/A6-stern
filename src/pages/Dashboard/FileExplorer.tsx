@@ -21,7 +21,7 @@ const FileExplorer: React.FC = () => {
     "2024-10-07": {
       images: [
         { src: "/Images/thumbnails/20241007/room02.jpg", type: "image" },
-        { src: "/Images/thumbnails/20241007/room03.jpg", type: "image" }
+        { src: "/Images/thumbnails/20241007/room03.jpg", type: "image" },
       ],
       pointclouds: [
         { src: "/PCD/LivingLamps.obj", type: "pointcloud" },
