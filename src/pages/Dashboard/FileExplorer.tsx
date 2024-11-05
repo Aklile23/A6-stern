@@ -46,11 +46,18 @@ const FileExplorer: React.FC = () => {
     ? thumbnailDataByDate[selectedDate] || { images: [], videos: [], pointclouds: [] }
     : { images: [], videos: [], pointclouds: [] };
 
-  const renderThumbnails = (thumbnails: { src: string; type: 'image' | 'video' | 'pointcloud' }[]) => {
-    return thumbnails.map((thumbnail, index) => (
-      <Thumbnail key={index} src={thumbnail.src} type={thumbnail.type} />
-    ));
-  };
+    const renderThumbnails = (thumbnails: { src: string; type: 'image' | 'video' | 'pointcloud' }[]) => {
+      return thumbnails.map((thumbnail, index) => {
+        const fileName = thumbnail.src.split('/').pop(); // Extracts the filename from the path
+        return (
+          <div key={index} className="flex flex-col ">
+            <Thumbnail src={thumbnail.src} type={thumbnail.type} />
+            <p className="text-sm text-center text-gray-600 dark:text-gray-200 mt-2">{fileName}</p> {/* Display filename */}
+          </div>
+        );
+      });
+    };
+    
 
   const renderContent = () => {
     // Mapping activeTab to the corresponding key in thumbnailsForSelectedDate
@@ -73,13 +80,7 @@ const FileExplorer: React.FC = () => {
         {renderThumbnails(thumbnails)}
       </div>
     );
-};
-
-
-
-
-
-
+  };
   return (
     <>
       <Breadcrumb pageName='A6_stern' />
