@@ -32,7 +32,8 @@ const HomeCalendar: React.FC = () => {
 
   const generateCalendarDays = () => {
     const daysInMonth = getDaysInMonth(currentDate);
-    const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getDay();
+    const firstDayOfMonth = (new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getDay() + 6) % 7;
+
     const daysArray = Array(firstDayOfMonth).fill(null);
 
     for (let day = 1; day <= daysInMonth; day++) {
@@ -107,9 +108,10 @@ const HomeCalendar: React.FC = () => {
       <div className="w-full rounded-sm border shadow-default border-strokedark bg-boxdark">
         <table className="w-full text-xs">
           <thead>
-            <tr className="grid grid-cols-7 bg-primary text-white text-center">
-              <th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th>
-            </tr>
+          <tr className="grid grid-cols-7 bg-primary text-white text-center">
+            <th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th>
+          </tr>
+
           </thead>
           <tbody>
             {Array.from({ length: Math.ceil(generateCalendarDays().length / 7) }).map((_, rowIndex) => (
@@ -120,7 +122,11 @@ const HomeCalendar: React.FC = () => {
                     <td
                       key={index}
                       className={`relative h-12 cursor-pointer border p-1 text-center transition duration-500 border-strokedark hover:bg-meta-4 ${
-                        day ? 'font-medium  text-white' : 'bg-gray-800'
+                        day 
+                          ? dataByDate[`${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`]
+                            ? 'bg-primary font-medium text-white'  // Highlight dates with data
+                            : 'font-medium text-white'                // Regular date styling
+                          : 'bg-gray-800'                             // Empty cell styling
                       }`}
                       onClick={() => day && handleDateClick(day)}
                       onMouseEnter={() => handleDateHover(day)}

@@ -12,20 +12,21 @@ const FileExplorer: React.FC = () => {
 
   // Sample data for demonstration; replace with actual data in production
   const thumbnailDataByDate: {
-  [date: string]: {
-    images: { src: string; type: "image" }[];
-    videos: { src: string; type: "video" }[];
-    pointclouds: { src: string; type: "pointcloud" }[];
-  };
-} = {
+    [date: string]: {
+      images?: { src: string; type: "image" }[];
+      videos?: { src: string; type: "video" }[];
+      pointclouds?: { src: string; type: "pointcloud" }[];
+    };
+  } = {
     "2024-10-07": {
       images: [
-        { src: "/Images/thumbnails/20241007/room02.JPG", type: "image" },
-        { src: "/Images/thumbnails/20241007/room03.JPG", type: "image" }
+        { src: "/Images/thumbnails/20241007/room02.jpg", type: "image" },
+        { src: "/Images/thumbnails/20241007/room03.jpg", type: "image" }
       ],
-      videos: [{src:"/Videos/Templates.mp4", type: "video"}],
-      
-      pointclouds: [{ src: "/PCD/LivingLamps.obj", type: "pointcloud" }, { src: "/PCD/LivingLamps.obj", type: "pointcloud" },],
+      pointclouds: [
+        { src: "/PCD/LivingLamps.obj", type: "pointcloud" },
+        { src: "/PCD/LivingLamps.obj", type: "pointcloud" }
+      ]
     },
     "2024-10-09": {
       images: [
@@ -33,11 +34,12 @@ const FileExplorer: React.FC = () => {
         { src: "/Images/thumbnails/20241009/room03.jpg", type: "image" },
         { src: "/Images/thumbnails/20241009/room04.jpg", type: "image" },
         { src: "/Images/thumbnails/20241009/room05.jpg", type: "image" },
-        { src: "/Images/thumbnails/20241009/room06.jpg", type: "image" },
+        { src: "/Images/thumbnails/20241009/room06.jpg", type: "image" }
       ],
-      
-      pointclouds: [{ src: "/pointclouds/thumbnails/pointcloud02.obj", type: "pointcloud" }],
-    },
+      pointclouds: [
+        { src: "/pointclouds/thumbnails/pointcloud02.obj", type: "pointcloud" }
+      ]
+    }
   };
 
   const thumbnailsForSelectedDate = selectedDate
@@ -91,24 +93,25 @@ const FileExplorer: React.FC = () => {
 
         <div className="flex border-b border-gray-300 dark:border-strokedark">
           <button
-            className={`flex-1 px-4 py-2 text-sm font-medium ${activeTab === 'images' ? 'border-b-2 border-primary text-primary dark:text-white' : 'text-bodydark1 dark:text-meta-4'}`}
+            className={`flex-1 px-4 py-2 text-sm font-medium ${activeTab === 'images' ? 'border-b-2 border-primary text-primary dark:text-white' : 'text-bodydark1 dark:text-gray-300 hover:text-primary'}`}
             onClick={() => setActiveTab('images')}
           >
             Images
           </button>
           <button
-            className={`flex-1 px-4 py-2 text-sm font-medium ${activeTab === 'videos' ? 'border-b-2 border-primary text-primary dark:text-white' : 'text-bodydark1 dark:text-meta-4'}`}
+            className={`flex-1 px-4 py-2 text-sm font-medium ${activeTab === 'videos' ? 'border-b-2 border-primary text-primary dark:text-white' : 'text-bodydark1 dark:text-gray-300 hover:text-primary'}`}
             onClick={() => setActiveTab('videos')}
           >
             Videos
           </button>
           <button
-            className={`flex-1 px-4 py-2 text-sm font-medium ${activeTab === 'pointcloud' ? 'border-b-2 border-primary text-primary dark:text-white' : 'text-bodydark1 dark:text-meta-4'}`}
+            className={`flex-1 px-4 py-2 text-sm font-medium ${activeTab === 'pointcloud' ? 'border-b-2 border-primary text-primary dark:text-white' : 'text-bodydark1 dark:text-gray-300 hover:text-primary'}`}
             onClick={() => setActiveTab('pointcloud')}
           >
             Pointcloud Data
           </button>
         </div>
+
 
         <div className="p-4">
           {renderContent()}
