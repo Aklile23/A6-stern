@@ -3,14 +3,14 @@ import React, { useState } from 'react';
 import { useSelectedDate } from '../../components/selectedDate ';
 import Thumbnail from '../../components/Thumbnail';
 import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
+import { useNavigate } from 'react-router-dom';
 
 const FileExplorer: React.FC = () => {
   const { selectedDate } = useSelectedDate();
   const [activeTab, setActiveTab] = useState('images');
+  const navigate = useNavigate();
 
-  const dateMessage = selectedDate ? `for ${selectedDate}` : 'No date selected';
-
-  // Sample data for demonstration; replace with actual data in production
+  // Sample data for demonstration
   const thumbnailDataByDate: {
     [date: string]: {
       images?: { src: string; type: "image" }[];
@@ -25,8 +25,7 @@ const FileExplorer: React.FC = () => {
       ],
       pointclouds: [
         { src: "/PCD/LivingLamps.obj", type: "pointcloud" },
-        { src: "/PCD/LivingLamps.obj", type: "pointcloud" }
-      ]
+      ],
     },
     "2024-10-09": {
       images: [
@@ -34,12 +33,12 @@ const FileExplorer: React.FC = () => {
         { src: "/Images/thumbnails/20241009/room03.jpg", type: "image" },
         { src: "/Images/thumbnails/20241009/room04.jpg", type: "image" },
         { src: "/Images/thumbnails/20241009/room05.jpg", type: "image" },
-        { src: "/Images/thumbnails/20241009/room06.jpg", type: "image" }
+        { src: "/Images/thumbnails/20241009/room06.jpg", type: "image" },
       ],
       pointclouds: [
-        { src: "/pointclouds/thumbnails/pointcloud02.obj", type: "pointcloud" }
-      ]
-    }
+        { src: "/pointclouds/thumbnails/pointcloud02.obj", type: "pointcloud" },
+      ],
+    },
   };
 
   const thumbnailsForSelectedDate = selectedDate
@@ -48,28 +47,30 @@ const FileExplorer: React.FC = () => {
 
     const renderThumbnails = (thumbnails: { src: string; type: 'image' | 'video' | 'pointcloud' }[]) => {
       return thumbnails.map((thumbnail, index) => {
-        const fileName = thumbnail.src.split('/').pop(); // Extracts the filename from the path
+        const fileName = thumbnail.src.split('/').pop();
+        const hdImagePath = thumbnail.src.replace('/thumbnails/', '/panoramas/'); // HD image path
+    
         return (
-          <div key={index} className="flex flex-col ">
+          <div
+            key={index}
+            className="flex flex-col"
+            onClick={() => {
+              navigate('/static-viewer', { state: { imageUrl: hdImagePath } }); // Pass imageUrl through state
+            }}
+          >
             <Thumbnail src={thumbnail.src} type={thumbnail.type} />
-            <p className="text-sm text-center text-gray-600 dark:text-gray-200 mt-2">{fileName}</p> {/* Display filename */}
+            <p className="text-sm text-center text-gray-600 dark:text-gray-200 mt-2">{fileName}</p>
           </div>
         );
       });
     };
-    
 
   const renderContent = () => {
-    // Mapping activeTab to the corresponding key in thumbnailsForSelectedDate
     const thumbnails = activeTab === 'images'
       ? thumbnailsForSelectedDate?.images || []
       : activeTab === 'videos'
-      ? thumbnailsForSelectedDate?.videos || []
-      : thumbnailsForSelectedDate?.pointclouds || [];
-
-    console.log("Active Tab:", activeTab);
-    console.log("Selected Date:", selectedDate);
-    console.log("Thumbnails for Active Tab:", thumbnails);
+        ? thumbnailsForSelectedDate?.videos || []
+        : thumbnailsForSelectedDate?.pointclouds || [];
 
     if (thumbnails.length === 0) {
       return <p className="text-center text-bodydark dark:text-gray-400">No files available</p>;
@@ -81,6 +82,7 @@ const FileExplorer: React.FC = () => {
       </div>
     );
   };
+
   return (
     <>
       <Breadcrumb pageName='A6_stern' />
@@ -113,13 +115,11 @@ const FileExplorer: React.FC = () => {
           </button>
         </div>
 
-
         <div className="p-4">
           {renderContent()}
         </div>
-    </div>
+      </div>
     </>
-    
   );
 };
 

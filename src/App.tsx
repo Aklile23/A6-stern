@@ -9,6 +9,9 @@ import { SelectedDateProvider } from './components/selectedDate ';
 import Projectx from './pages/Projectx';
 import Projecty from './pages/Projecty';
 import HomePage from './pages/HomePage'; // Import your new HomePage component
+import InteractiveViewer from './components/InteractiveViewer';
+import StaticViewer from './components/StaticViewer';
+import Buttons from './pages/UiElements/Buttons';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -60,6 +63,8 @@ function App() {
                 </>
               }
             />
+            <Route path="/interactive-viewer" element={<InteractiveViewer />} />
+            <Route path="/static-viewer" element={<StaticViewer />} />
           </Routes>
         </DefaultLayout>
       )}

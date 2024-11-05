@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { useSelectedDate } from '../components/selectedDate ';
+import { useNavigate } from 'react-router-dom';
 
 const Calendar: React.FC = () => {
   const { setSelectedDate } = useSelectedDate();
   const [currentDate, setCurrentDate] = useState(new Date());
+  const navigate = useNavigate();
 
   // Define data availability for specific dates
   const dataByDate: { [key: string]: { images: number; videos: number; pointclouds: number } } = {
@@ -41,6 +43,7 @@ const Calendar: React.FC = () => {
   const handleDateClick = (day: number) => {
     const formattedDate = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
     setSelectedDate(formattedDate);
+    navigate('/A6_stern');
   };
 
   const handlePrevMonth = () => {
