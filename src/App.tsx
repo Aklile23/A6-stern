@@ -7,9 +7,7 @@ import DefaultLayout from './layout/DefaultLayout';
 import FileExplorer from './pages/Dashboard/FileExplorer';
 import { SelectedDateProvider } from './components/selectedDate ';
 import Projectx from './pages/Projectx';
-import ECommerce from './pages/Dashboard/ECommerce';
 import Projecty from './pages/Projecty';
-import Projectz from './pages/Projectz';
 import HomePage from './pages/HomePage'; // Import your new HomePage component
 
 function App() {
